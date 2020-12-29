@@ -2,7 +2,7 @@
 
 push a website to ipfs
 
-Syntax:
-web2ipfs <url>
+Syntax:<br>
+web2ipfs &lt;url&gt;
 
 You will get the URL to the ipfs content. 
