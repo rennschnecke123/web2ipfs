@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# by R.Rusch, https://keybase.io/reinerrusch
+
+SITE=$1
+MODE=$2
+SITE=$(echo $SITE|sed 's/http\:\/\///gi'|sed 's/https\:\/\///gi')
+cd /tmp
+if [ "$MODE" == "--silent" ]
+then
+	wget -e robots=off -U "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)" --no-check-certificate -m --convert-links --page-requisites --convert-links --level=2 http://$SITE >/dev/null 2>&1
+else
+	wget -e robots=off -U "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)" --no-check-certificate -m --convert-links --page-requisites --convert-links --level=2 http://$SITE 
+fi
+ID=$(/usr/local/bin/ipfs add -r $SITE | tail -n1 | cut -d ' ' -f 2)
+
+if [ $(cat /tmp/ipfs-ids.log|grep $ID|wc -l) -eq 0 ]
+then
+	echo "http://localhost:8080/ipfs/"$ID "https://ipfs.io/ipfs/"$ID
+	echo $ID >>/tmp/ipfs-ids.log
+else
+	echo "- no changes -"
+fi
+
+echo "http://localhost:8080/ipfs/$ID"
+
+
+
+
