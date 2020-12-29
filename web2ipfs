@@ -22,7 +22,13 @@ else
 	echo "- no changes -"
 fi
 
-echo "http://localhost:8080/ipfs/$ID"
+
+if [ "$MODE" == "--silent" ]
+then
+	echo "$ID"
+else
+	echo "http://localhost:8080/ipfs/$ID"
+fi
 
 
 
